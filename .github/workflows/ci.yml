@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+
+      - name: build
+        run: go build ./...
+
+      - name: test
+        run: go test ./...
+
+      - name: no-fleet-import
+        run: |
+          # Exclude nofleet_test.go which legitimately references the banned string
+          # as a test variable, not as an import path.
+          if grep -rn 'github\.com/rancher/fleet' --include='*.go' . \
+               | grep -v 'nofleet_test\.go'; then
+            echo "ERROR: found import of github.com/rancher/fleet"; exit 1
+          fi
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+
+      - uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
