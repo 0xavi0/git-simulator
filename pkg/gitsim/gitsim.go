@@ -97,7 +97,7 @@ func (s *Simulator) Handler() http.Handler {
 
 	// Health check.
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprint(w, "ok")
+		_, _ = fmt.Fprint(w, "ok")
 	})
 
 	// Git smart-HTTP catch-all: any path containing ".git" is a git request.

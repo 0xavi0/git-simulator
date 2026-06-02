@@ -38,7 +38,7 @@ func infoRefs(w http.ResponseWriter, r *http.Request, s storer.Storer) {
 		http.Error(w, fmt.Sprintf("create session: %v", err), http.StatusInternalServerError)
 		return
 	}
-	defer sess.Close()
+	defer func() { _ = sess.Close() }()
 
 	refs, err := sess.AdvertisedReferencesContext(r.Context())
 	if err != nil {
@@ -73,7 +73,7 @@ func uploadPack(w http.ResponseWriter, r *http.Request, s storer.Storer) {
 		http.Error(w, fmt.Sprintf("create session: %v", err), http.StatusInternalServerError)
 		return
 	}
-	defer sess.Close()
+	defer func() { _ = sess.Close() }()
 
 	// AdvertisedReferencesContext must be called to initialise the session's
 	// capability state before UploadPack can validate the request's caps.
@@ -98,7 +98,7 @@ func uploadPack(w http.ResponseWriter, r *http.Request, s storer.Storer) {
 		http.Error(w, fmt.Sprintf("upload pack: %v", err), http.StatusInternalServerError)
 		return
 	}
-	defer resp.Close()
+	defer func() { _ = resp.Close() }()
 
 	w.Header().Set("Content-Type", "application/x-git-upload-pack-result")
 	w.Header().Set("Cache-Control", "no-cache")

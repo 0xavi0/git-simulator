@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	ghwebhooks "github.com/go-playground/webhooks/v6/github"
 	gogit "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/config"
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/storage/memory"
+	ghwebhooks "github.com/go-playground/webhooks/v6/github"
 
 	"github.com/rancher/gitsim/pkg/core"
 	"github.com/rancher/gitsim/pkg/gitsim"

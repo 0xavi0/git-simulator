@@ -29,11 +29,11 @@ func commitsHandler(w http.ResponseWriter, r *http.Request, resolve core.CommitR
 
 	if r.Header.Get("Accept") == acceptSHA {
 		w.Header().Set("Content-Type", "application/vnd.github.v3.sha")
-		fmt.Fprint(w, sha)
+		_, _ = fmt.Fprint(w, sha)
 		return
 	}
 
 	// Fall back to minimal JSON for clients that don't send the SHA accept header.
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprintf(w, `{"sha":%q}`, sha)
+	_, _ = fmt.Fprintf(w, `{"sha":%q}`, sha)
 }

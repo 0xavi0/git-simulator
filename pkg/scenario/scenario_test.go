@@ -399,7 +399,9 @@ func TestHTTP_ScenarioRace(t *testing.T) {
 	var mu sync.Mutex
 	var receivedSHA string
 	receiver := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var pl struct{ After string `json:"after"` }
+		var pl struct {
+			After string `json:"after"`
+		}
 		json.NewDecoder(r.Body).Decode(&pl) //nolint:errcheck
 		mu.Lock()
 		receivedSHA = pl.After

@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	gogsclient "github.com/gogits/go-gogs-client"
 	gogswebhooks "github.com/go-playground/webhooks/v6/gogs"
+	gogsclient "github.com/gogits/go-gogs-client"
 
 	"github.com/rancher/gitsim/pkg/core"
 	"github.com/rancher/gitsim/pkg/provider/gogs"

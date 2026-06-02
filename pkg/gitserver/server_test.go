@@ -20,9 +20,9 @@ import (
 const testHost = "sim.test"
 
 var testFiles = map[string][]byte{
-	"README.md":    []byte("# hello"),
-	"src/main.go":  []byte("package main\nfunc main() {}"),
-	"src/util.go":  []byte("package main\nfunc util() {}"),
+	"README.md":   []byte("# hello"),
+	"src/main.go": []byte("package main\nfunc main() {}"),
+	"src/util.go": []byte("package main\nfunc util() {}"),
 }
 
 func newTestEnv(t *testing.T) (*store.Store, *core.ManualClock, *httptest.Server) {

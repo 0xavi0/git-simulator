@@ -95,7 +95,7 @@ func (e *Emitter) sendWithRetry(ctx context.Context, target string, d Delivery) 
 			continue
 		}
 		respBody, _ := io.ReadAll(resp.Body)
-		resp.Body.Close()
+		_ = resp.Body.Close()
 
 		last = Result{Delivery: d, StatusCode: resp.StatusCode, Body: respBody}
 		if resp.StatusCode < 500 {
