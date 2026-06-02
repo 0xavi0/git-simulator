@@ -1,6 +1,9 @@
 # Built binary
 /gitsim
 
+# GoReleaser output
+/dist
+
 # Go test artifacts
 *.test
 *.out

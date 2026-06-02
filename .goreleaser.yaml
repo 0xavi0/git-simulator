@@ -1,0 +1,54 @@
+# GoReleaser configuration.
+# Validate locally: goreleaser check
+# Dry-run a release (builds artifacts under ./dist, does not publish):
+#   goreleaser release --snapshot --clean
+version: 2
+
+builds:
+  - id: gitsim
+    main: ./cmd/gitsim
+    binary: gitsim
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      # windows/arm64 is uncommon — drop to keep the matrix small.
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - id: gitsim
+    name_template: "gitsim_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    # README.md and LICENSE* are picked up automatically when present.
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - '^ci:'
+
+release:
+  draft: false
+  prerelease: auto
